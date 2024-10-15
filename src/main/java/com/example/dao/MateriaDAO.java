@@ -3,9 +3,11 @@ package com.example.dao;
 import com.example.model.Materia;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class MateriaDAO {
 
@@ -17,26 +19,24 @@ public class MateriaDAO {
 
     // Método para obtener todas las materias
     public List<Materia> getAllMaterias() {
-        Session session = null;
-        List<Materia> materias = null;
-        try {
-            session = factory.openSession();
-            session.beginTransaction();
+        return executeTransaction(session -> session.createQuery("from Materia", Materia.class).getResultList());
+    }
 
-            materias = session.createQuery("from Materia", Materia.class).getResultList();
-
-            session.getTransaction().commit();
+    // Método genérico para ejecutar una transacción
+    private <T> T executeTransaction(Function<Session, T> command) {
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            T result = command.apply(session);
+            transaction.commit();
+            return result;
         } catch (Exception e) {
-            if (session != null) {
-                session.getTransaction().rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new RuntimeException("Error during transaction", e);
         }
-        return materias;
     }
 
     // Método para guardar o actualizar una materia
