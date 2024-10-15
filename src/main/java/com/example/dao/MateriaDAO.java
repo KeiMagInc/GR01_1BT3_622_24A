@@ -63,9 +63,7 @@ public class MateriaDAO {
 
     // Método para eliminar una materia por su código
     public void deleteMateria(int codigomateria) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             session.beginTransaction();
 
             Materia materia = session.get(Materia.class, codigomateria);
@@ -75,16 +73,10 @@ public class MateriaDAO {
 
             session.getTransaction().commit();
         } catch (Exception e) {
-            if (session != null) {
-                session.getTransaction().rollback();
-            }
             e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
+
 
     // Método para obtener una materia por su código
     public Materia getMateria(int codigomateria) {
