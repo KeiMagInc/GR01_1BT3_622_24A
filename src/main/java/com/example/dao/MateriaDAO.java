@@ -18,13 +18,10 @@ public class MateriaDAO {
     // Método para obtener todas las materias
     public List<Materia> getAllMaterias() {
         Session session = null;
-        List<Materia> materias = null;
         try {
             session = factory.openSession();
             session.beginTransaction();
-
-            materias = session.createQuery("from Materia", Materia.class).getResultList();
-
+            consultarMaterias(session);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session != null) {
@@ -36,7 +33,12 @@ public class MateriaDAO {
                 session.close();
             }
         }
-        return materias;
+        return null;
+    }
+
+    //Método para consultar Materias - actualizados
+    private static void consultarMaterias(Session session) {
+        List<Materia> result = session.createQuery("from Materia", Materia.class).getResultList();
     }
 
     // Método para guardar o actualizar una materia
