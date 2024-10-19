@@ -50,23 +50,6 @@ public class TutoriaDAO {
         }
     }
 
-    // Eliminar una tutoría por su ID
-    public void deleteTutoria(int tutoriaId) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Tutoria tutoria = session.get(Tutoria.class, tutoriaId);
-            if (tutoria != null) {
-                session.delete(tutoria);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
 
     // Obtener una tutoría por su ID
     public Tutoria getTutoriaById(int tutoriaId) {
@@ -84,32 +67,5 @@ public class TutoriaDAO {
         }
     }
 
-    // Actualizar una tutoría
-    public void update(Tutoria tutoria) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(tutoria);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
 
-
-
-    // Obtener las tutorías disponibles para un alumno (tutorías no aceptadas)
-    public List<Tutoria> getTutoriasDisponiblesParaAlumno(int alumnoId) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM Tutoria t WHERE t.id NOT IN " +
-                    "(SELECT s.tutoria.id FROM Solicitud s WHERE s.alumno.id = :alumnoId AND s.estado = 'Aceptada')";
-
-            Query<Tutoria> query = session.createQuery(hql, Tutoria.class)
-                    .setParameter("alumnoId", alumnoId);
-            return query.getResultList();
-        }
-    }
 }

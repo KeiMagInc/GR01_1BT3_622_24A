@@ -29,28 +29,7 @@ public class SolicitudDAO {
         System.out.println("Solicitud guardada correctamente: " + solicitud.getId());
     }
 
-    // Método para obtener las tutorías aceptadas por un alumno
-    public List<Solicitud> getTutoriasAceptadasPorAlumno(int alumnoId) {
-        Transaction transaction = null;
-        List<Solicitud> tutoriasAceptadas = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            // Consulta HQL para obtener las solicitudes con estado "Aceptada"
-            String hql = "FROM Solicitud s WHERE s.alumno.id = :alumnoId AND s.estado = 'Aceptada'";
-            tutoriasAceptadas = session.createQuery(hql, Solicitud.class)
-                    .setParameter("alumnoId", alumnoId)
-                    .list();
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-        return tutoriasAceptadas;
-    }
     // Método para obtener todas las solicitudes de un alumno, sin importar el estado
     public List<Solicitud> getSolicitudesPorAlumno(int alumnoId) {
         Transaction transaction = null;

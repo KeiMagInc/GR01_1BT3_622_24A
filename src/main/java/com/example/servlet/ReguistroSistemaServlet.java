@@ -33,22 +33,21 @@ public class ReguistroSistemaServlet extends HttpServlet {
         String[] materiasSeleccionadas = request.getParameterValues("materiasSeleccionadas");
 
         try {
-            // Pasar los datos al servicio para registrar el usuario
+
             reguistroSistemaService.reguistrarUsuario(nombre, apellido, correo, rolId, materiasSeleccionadas);
         } catch (Exception e) {
-            // Si ocurre un error, reenviamos al formulario con el mensaje de error
+
             request.setAttribute("errorMessage", e.getMessage());
             doGet(request, response);
         }
         doGet(request, response);
-        //request.getRequestDispatcher("/Administrator/ReguistroUsuarios.jsp").forward(request, response);
-        //response.sendRedirect(request.getContextPath() + "/Administrator/ReguistroUsuarios.jsp");
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //obtenmer materias de la base de datos
+
         List<Materia> materias = materiaDAO.getAllMaterias();
         List<Rol> rols = rolDAO.getAllRols();
 
@@ -57,8 +56,5 @@ public class ReguistroSistemaServlet extends HttpServlet {
         request.setAttribute("materias", materias);
         request.getRequestDispatcher("/Administrator/ReguistroUsuarios.jsp").forward(request, response);
 
-
-
-        //response.sendRedirect(request.getContextPath() + "/Administrator/ReguistroUsuarios.jsp");
     }
 }

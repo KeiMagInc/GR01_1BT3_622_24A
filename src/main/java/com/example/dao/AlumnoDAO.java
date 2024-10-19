@@ -78,6 +78,32 @@ public class AlumnoDAO {
         session.getTransaction().commit();
         session.close();
     }
+    // Método para obtener un Alumno por su ID
+    public Alumno obtenerAlumnoPorId(String alumnoId) {
+        Session session = null;
+        Alumno alumno = null;
+
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+
+            // Obtener el alumno por su ID
+            alumno = session.get(Alumno.class, Integer.parseInt(alumnoId));
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return alumno;
+    }
 
 
 }

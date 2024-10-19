@@ -5,6 +5,7 @@ import com.example.dao.MateriaDAO;
 import com.example.model.Materia;
 import com.example.model.Tutor;
 import com.example.model.Tutoria;
+import com.example.service.RegistrarTutoriaService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,10 +21,12 @@ public class RegistrarTutoriaServlet extends HttpServlet {
 
     private TutoriaDAO tutoriaDAO;
     private MateriaDAO materiaDAO; // Definir la variable materiaDAO
+    private RegistrarTutoriaService registrarTutoriaService;
 
     public void init() {
         tutoriaDAO = new TutoriaDAO();
-        materiaDAO = new MateriaDAO(); // Inicializar materiaDAO
+        materiaDAO = new MateriaDAO();
+        registrarTutoriaService = new RegistrarTutoriaService();// Inicializar materiaDAO
     }
 
 
@@ -34,24 +37,9 @@ public class RegistrarTutoriaServlet extends HttpServlet {
         String horaInicio = request.getParameter("horaInicioSelect");
         String horaFin = request.getParameter("horaFinSelect");
 
-        System.out.println(fecha);
+        int tutorId = 1;  // ID del tutor
 
-        Tutoria tutoria = new Tutoria();
-        Materia materia = new Materia();
-        materia.setCodigomateria(codigoMateria);
-
-        tutoria.setMateria(materia);
-        tutoria.setFecha(java.sql.Date.valueOf(fecha)); // Convertir a java.sql.Date
-        tutoria.setHoraInicio(horaInicio + ":00"); // Convertir a java.sql.Time
-        tutoria.setHoraFin(horaFin + ":00"); // Convertir a java.sql.Time
-
-        // Asignar el tutor
-        Tutor tutor = new Tutor();
-        tutor.setId(1);  // ID del tutor
-        tutoria.setTutor(tutor);
-
-        // Guardar la tutoría
-        tutoriaDAO.reguistarTutoria(tutoria);
+        registrarTutoriaService.registrarTutoria(codigoMateria, fecha, horaInicio, horaFin, tutorId);
 
         // Redirigir
         response.sendRedirect(request.getContextPath() + "/Tutor/tutor.jsp");
@@ -59,8 +47,8 @@ public class RegistrarTutoriaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtener solo las materias que el tutor puede impartir
-        List<Materia> materias = materiaDAO.getMateriasByTutorId(2);
+
+        List<Materia> materias = materiaDAO.getMateriasByTutorId(1);
 
         // Pasar la lista de materias al JSP
         request.setAttribute("materias", materias);

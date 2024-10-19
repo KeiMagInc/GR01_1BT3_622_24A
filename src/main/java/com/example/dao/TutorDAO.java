@@ -45,11 +45,6 @@ public class TutorDAO {
         }
         return null;
     }
-    public List<Tutor> getAllTutors() {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Tutor", Tutor.class).list();
-        }
-    }
     public List<Tutor> getAllTutoresWithDetails() {
         Session session = sessionFactory.openSession();
         try {
@@ -105,10 +100,31 @@ public class TutorDAO {
         session.getTransaction().commit();
         session.close();
     }
+    // Método para obtener un Tutor por su ID
+    public Tutor obtenerTutorPorId(String tutorId) {
+        Session session = null;
+        Tutor tutor = null;
 
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
 
+            // Obtener el tutor por su ID
+            tutor = session.get(Tutor.class, Integer.parseInt(tutorId));
 
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
-
+        return tutor;
+    }
 
 }

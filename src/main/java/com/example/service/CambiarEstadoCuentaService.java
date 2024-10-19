@@ -9,6 +9,11 @@ public class CambiarEstadoCuentaService {
     private AlumnoDAO alumnoDAO = new AlumnoDAO();
     private TutorDAO tutorDAO = new TutorDAO();
     private AdministratorDAO administradorDAO = new AdministratorDAO();
+    public CambiarEstadoCuentaService() {
+        // Constructor predeterminado
+    }
+
+
 
     // Método para cambiar el estado de la cuenta basado en el tipo de usuario y la acción
     public void cambiarEstadoCuenta(String userId, String accion, String typeUser) {
@@ -17,6 +22,9 @@ public class CambiarEstadoCuentaService {
             banearCuenta(userId, typeUser);
         } else if ("eliminar".equals(accion)) {
             eliminarCuenta(userId, typeUser);
+        }else {
+            // Lanzar excepción si la acción no es válida
+            throw new IllegalArgumentException("Acción no válida: " + accion);
         }
     }
 
