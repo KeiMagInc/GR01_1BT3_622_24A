@@ -21,8 +21,10 @@ public class MateriaDAO {
         try {
             session = factory.openSession();
             session.beginTransaction();
-            consultarMaterias(session);
+            // Retornar directamente el resultado de la consulta
+            List<Materia> result = consultarMaterias(session);
             session.getTransaction().commit();
+            return result;
         } catch (Exception e) {
             if (session != null) {
                 session.getTransaction().rollback();
@@ -33,12 +35,13 @@ public class MateriaDAO {
                 session.close();
             }
         }
-        return null;
+        return null; // Retorna null en caso de que ocurra una excepción
     }
 
-    //Método para consultar Materias
-    private static void consultarMaterias(Session session) {
-        List<Materia> result = session.createQuery("from Materia", Materia.class).getResultList();
+
+    // Método para consultar Materias
+    private static List<Materia> consultarMaterias(Session session) {
+        return session.createQuery("from Materia", Materia.class).getResultList(); // Corregido para retornar la lista de resultados
     }
 
     //Método para guardar o actualizar una materia
