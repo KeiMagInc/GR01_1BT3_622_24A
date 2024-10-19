@@ -1,22 +1,26 @@
 package com.example.dao;
 
 import com.example.model.Materia;
+import com.example.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class MateriaDAO {
 
-    private SessionFactory factory;
+    // Usamos el SessionFactory de HibernateUtil
+    private final SessionFactory factory;
 
     public MateriaDAO() {
-        factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Materia.class).buildSessionFactory();
+        this.factory = HibernateUtil.getSessionFactory();
     }
 
     // Método para obtener todas las materias
-    public List<Materia> getAllMaterias() {
+    public List<Materia> getAllMaterias(){
+
         Session session = null;
         try {
             session = factory.openSession();
@@ -44,41 +48,20 @@ public class MateriaDAO {
         return session.createQuery("from Materia", Materia.class).getResultList(); // Corregido para retornar la lista de resultados
     }
 
-    //Método para guardar o actualizar una materia
-    public void saveMateria(Materia materia) {
+    public Materia findById(int id) {
         Session session = null;
         try {
             session = factory.openSession();
             session.beginTransaction();
+            Materia materia = session.get(Materia.class, id);
 
-            session.saveOrUpdate(materia);
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            if (session != null) {
-                session.getTransaction().rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
-    // Método para eliminar una materia por su código
-    public void deleteMateria(int codigomateria) {
-        Session session = null;
-        try {
-            session = factory.openSession();
-            session.beginTransaction();
-
-            Materia materia = session.get(Materia.class, codigomateria);
+            // Forzar la inicialización de la colección de tutores
             if (materia != null) {
-                session.delete(materia);
+                materia.getTutores().size(); // Acceder a la colección para inicializarla
             }
 
             session.getTransaction().commit();
+            return materia;
         } catch (Exception e) {
             if (session != null) {
                 session.getTransaction().rollback();
@@ -89,19 +72,21 @@ public class MateriaDAO {
                 session.close();
             }
         }
+        return null;
     }
 
-    // Método para obtener una materia por su código
-    public Materia getMateria(int codigomateria) {
+    // Método para obtener todas las materias de un tutor
+    public List<Materia> getMateriasByTutorId(int tutorId) {
         Session session = null;
-        Materia materia = null;
         try {
             session = factory.openSession();
             session.beginTransaction();
-
-            materia = session.get(Materia.class, codigomateria);
-
+            // Consulta para obtener las materias impartidas por el tutor
+            List<Materia> materias = session.createQuery("SELECT m FROM Materia m JOIN m.tutores t WHERE t.id = :tutorId", Materia.class)
+                    .setParameter("tutorId", tutorId)
+                    .getResultList();
             session.getTransaction().commit();
+            return materias;
         } catch (Exception e) {
             if (session != null) {
                 session.getTransaction().rollback();
@@ -112,7 +97,10 @@ public class MateriaDAO {
                 session.close();
             }
         }
-        return materia;
+        return null;
     }
+
+
+
 
 }

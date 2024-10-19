@@ -1,10 +1,10 @@
 package com.example.model;
-
 import javax.persistence.*;
 
+
 @Entity
-@Table(name = "alumno")
-public class Alumno {
+@Table(name = "administrador")
+public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,33 +24,8 @@ public class Alumno {
     }
 
     // Constructor por defecto que asigna 'estadoCuenta' a 'activo'
-    public Alumno() {
+    public Administrador() {
         this.estadoCuenta = "activo"; // Valor por defecto al crear un alumno
-    }
-
-    public String getRolID() {
-        return rolID;
-    }
-
-    public void setRolID(String rolID) {
-        this.rolID = rolID;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    // Getters y setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -61,11 +36,35 @@ public class Alumno {
         this.nombre = nombre;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRolID() {
+        return rolID;
+    }
+
+    public void setRolID(String rolID) {
+        this.rolID = rolID;
     }
 }

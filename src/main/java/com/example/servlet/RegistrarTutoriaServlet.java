@@ -31,8 +31,10 @@ public class RegistrarTutoriaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int codigoMateria = Integer.parseInt(request.getParameter("materia"));
         String fecha = request.getParameter("fecha");
-        String horaInicio = request.getParameter("horaInicio");
-        String horaFin = request.getParameter("horaFin");
+        String horaInicio = request.getParameter("horaInicioSelect");
+        String horaFin = request.getParameter("horaFinSelect");
+
+        System.out.println(fecha);
 
         Tutoria tutoria = new Tutoria();
         Materia materia = new Materia();
@@ -57,17 +59,12 @@ public class RegistrarTutoriaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtener todas las materias disponibles
-        List<Materia> materias = materiaDAO.getAllMaterias();
-
-        // Imprimir la lista de materias en la consola para verificar
-        System.out.println("Materias recuperadas de la base de datos:");
-        for (Materia materia : materias) {
-            System.out.println("Código: " + materia.getCodigomateria() + ", Nombre: " + materia.getNombre());
-        }
+        // Obtener solo las materias que el tutor puede impartir
+        List<Materia> materias = materiaDAO.getMateriasByTutorId(2);
 
         // Pasar la lista de materias al JSP
         request.setAttribute("materias", materias);
         request.getRequestDispatcher("/Tutor/registrarTutoria.jsp").forward(request, response);
+
     }
 }

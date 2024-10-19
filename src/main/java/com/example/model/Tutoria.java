@@ -2,6 +2,9 @@ package com.example.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tutoria")
@@ -28,7 +31,16 @@ public class Tutoria {
     @JoinColumn(name = "codigomateria")
     private Materia materia;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "tutoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Solicitud> solicitudes = new HashSet<>();
+
+    public Set<Solicitud> getSolicitudes() {
+        return solicitudes;
+    }
+
+    public void setSolicitudes(Set<Solicitud> solicitudes) {
+        this.solicitudes = solicitudes;
+    }
 
     public int getId() {
         return id;

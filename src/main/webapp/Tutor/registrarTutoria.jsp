@@ -3,8 +3,36 @@
 <html>
 <head>
   <title>Registrar Tutoría</title>
+  <script type="text/javascript">
+    window.onload = function() {
+      // Bloquear la selección de fechas pasadas
+      var today = new Date().toISOString().split('T')[0];
+      var fechaInput = document.getElementById("fecha");
+      fechaInput.setAttribute("min", today);
+    }
+
+    // Función para generar opciones de hora
+    function generarHoras() {
+      var horaInicio = document.getElementById("horaInicioSelect");
+      var horaFin = document.getElementById("horaFinSelect");
+
+      for (var i = 9; i <= 18; i++) {
+        var hora = i.toString().padStart(2, '0');
+        var option = document.createElement("option");
+        option.value = hora;
+        option.text = hora;
+        horaInicio.appendChild(option);
+
+        var optionFin = document.createElement("option");
+        optionFin.value = hora;
+        optionFin.text = hora;
+        horaFin.appendChild(optionFin);
+      }
+    }
+
+  </script>
 </head>
-<body>
+<body onload="generarHoras(); generarMinutos();">
 <h2>Registrar una Nueva Tutoría</h2>
 <form action="${pageContext.request.contextPath}/RegistrarTutoriaServlet" method="post">
   <!-- Menú desplegable para seleccionar la materia -->
@@ -16,18 +44,20 @@
     </c:forEach>
   </select><br>
 
+  <!-- Fecha, solo fechas futuras -->
   <label for="fecha">Fecha:</label>
   <input type="date" id="fecha" name="fecha" required><br>
 
-  <label for="horaInicio">Hora de inicio:</label>
-  <input type="time" id="horaInicio" name="horaInicio" required><br>
+  <!-- Hora de inicio: entre 9 AM y 6 PM -->
+  <label for="horaInicioSelect">Hora de inicio:</label>
+  <select id="horaInicioSelect" name="horaInicioSelect" required></select><br> :
 
-  <label for="horaFin">Hora de fin:</label>
-  <input type="time" id="horaFin" name="horaFin" required><br>
+  <!-- Hora de fin: entre 9 AM y 6 PM -->
+  <label for="horaFinSelect">Hora de fin:</label>
+  <select id="horaFinSelect" name="horaFinSelect" required></select><br> :
 
   <button type="submit">Registrar</button>
 </form>
-
 
 </body>
 </html>

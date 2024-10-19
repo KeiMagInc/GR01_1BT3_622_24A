@@ -1,8 +1,7 @@
 package com.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "materia")
@@ -12,6 +11,16 @@ public class Materia {
     private int codigomateria;
     private String nombre;
     private String descripcion;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "materias")
+    private List<Tutor> tutores;
+
+    public List<Tutor> getTutores() {
+        return tutores;
+    }
+
+    public void setTutores(List<Tutor> tutores) {
+        this.tutores = tutores;
+    }
 
     // Getters y Setters
     public int getCodigomateria() {

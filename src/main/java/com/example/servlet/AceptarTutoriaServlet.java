@@ -1,10 +1,6 @@
 package com.example.servlet;
 
 import com.example.dao.SolicitudDAO;
-import com.example.model.Alumno;
-import com.example.model.Solicitud;
-import com.example.model.Tutor;
-import com.example.model.Tutoria;
 import com.example.service.AceptarTutoriaService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,7 +19,7 @@ public class AceptarTutoriaServlet extends HttpServlet {
     @Override
     public void init() {
         solicitudDAO = new SolicitudDAO();
-        this.aceptarTutoriaService = new AceptarTutoriaService();// Inicializar DAO
+        this.aceptarTutoriaService = new AceptarTutoriaService();
     }
 
     @Override

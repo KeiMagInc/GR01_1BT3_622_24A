@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <html>
 <head>
   <title>Tutorías Creadas y Solicitudes</title>
@@ -18,7 +21,10 @@
     <tr>
       <td>${tutoria.id}</td>
       <td>${tutoria.materia.nombre}</td> <!-- Mostrar el nombre de la materia -->
-      <td>${tutoria.fecha}</td>
+      <td>
+        <!-- Usar fmt:formatDate para formatear la fecha y mostrar solo YYYY-MM-DD -->
+        <fmt:formatDate value="${tutoria.fecha}" pattern="dd-MM-yyyy" />
+      </td>
     </tr>
   </c:forEach>
 </table>

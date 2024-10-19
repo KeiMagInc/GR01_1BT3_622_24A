@@ -32,6 +32,8 @@
         <mapping class="com.example.model.SolicitudTutoria"/>
         <mapping class="com.example.model.Materia"/>
         <mapping class="com.example.model.Solicitud"/>
+        <mapping class="com.example.model.Rol"/>
+        <mapping class="com.example.model.Administrador"/>
 
 
 

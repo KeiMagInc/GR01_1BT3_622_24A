@@ -20,6 +20,8 @@ public class SeleccionRolServlet extends HttpServlet {
             response.sendRedirect("User/usuario.jsp");
         } else if ("tutor".equals(rol)) {
             response.sendRedirect("Tutor/tutor.jsp");
+        } else if ("administrator".equals(rol)) {
+            response.sendRedirect("Administrator/Administrador.jsp");
         }
     }
 }
