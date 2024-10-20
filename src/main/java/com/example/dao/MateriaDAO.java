@@ -15,12 +15,16 @@ public class MateriaDAO {
         factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Materia.class).buildSessionFactory();
     }
 
+    private void crearTransaccion(Session session){
+        session = factory.openSession();
+        session.beginTransaction();
+    }
+
     // Método para obtener todas las materias
     public List<Materia> getAllMaterias() {
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
+            crearTransaccion(session);
             consultarMaterias(session);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -45,11 +49,8 @@ public class MateriaDAO {
     public void saveMateria(Materia materia) {
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
-
+            crearTransaccion(session);
             session.saveOrUpdate(materia);
-
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session != null) {
@@ -67,14 +68,11 @@ public class MateriaDAO {
     public void deleteMateria(int codigomateria) {
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
-
+            crearTransaccion(session);
             Materia materia = session.get(Materia.class, codigomateria);
             if (materia != null) {
                 session.delete(materia);
             }
-
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session != null) {
@@ -93,11 +91,8 @@ public class MateriaDAO {
         Session session = null;
         Materia materia = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
-
+            crearTransaccion(session);
             materia = session.get(Materia.class, codigomateria);
-
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session != null) {
