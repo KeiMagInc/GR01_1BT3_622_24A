@@ -14,9 +14,16 @@ public class RegistrarTutoriaService {
     private TutoriaDAO tutoriaDAO;
     private MateriaDAO materiaDAO;
 
+    // Constructor vacío por defecto (por si lo necesitas para otras partes de tu aplicación)
     public RegistrarTutoriaService() {
-        this.tutoriaDAO = new TutoriaDAO();
-        this.materiaDAO = new MateriaDAO();
+        this.tutoriaDAO = new TutoriaDAO();  // Inicializa con implementaciones reales
+        this.materiaDAO = new MateriaDAO();  // Inicializa con implementaciones reales
+    }
+
+    // Constructor que acepta los DAOs (para facilitar los tests)
+    public RegistrarTutoriaService(TutoriaDAO tutoriaDAO, MateriaDAO materiaDAO) {
+        this.tutoriaDAO = tutoriaDAO;
+        this.materiaDAO = materiaDAO;
     }
 
     // Método para registrar la tutoría
@@ -26,16 +33,14 @@ public class RegistrarTutoriaService {
         materia.setCodigomateria(codigoMateria);
 
         tutoria.setMateria(materia);
-        tutoria.setFecha(Date.valueOf(fecha)); // Convertir a java.sql.Date
-        tutoria.setHoraInicio(horaInicio + ":00"); // Convertir a java.sql.Time
-        tutoria.setHoraFin(horaFin + ":00"); // Convertir a java.sql.Time
+        tutoria.setFecha(Date.valueOf(fecha));
+        tutoria.setHoraInicio(horaInicio + ":00");
+        tutoria.setHoraFin(horaFin + ":00");
 
-        // Asignar el tutor
         Tutor tutor = new Tutor();
-        tutor.setId(tutorId);  // ID del tutor
+        tutor.setId(tutorId);
         tutoria.setTutor(tutor);
 
-        // Guardar la tutoría
         tutoriaDAO.reguistarTutoria(tutoria);
     }
 
