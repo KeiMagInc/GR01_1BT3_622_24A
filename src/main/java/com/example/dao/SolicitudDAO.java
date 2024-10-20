@@ -78,21 +78,15 @@ public class SolicitudDAO {
 
         return solicitudes;
     }
-    // Método para obtener una solicitud por su ID
+
+    // Método refactorizado para obtener una solicitud por su ID
     public Solicitud getById(int id) {
-        Transaction transaction = null;
-        Solicitud solicitud = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            solicitud = session.get(Solicitud.class, id); // Obtener la solicitud por ID
-            transaction.commit();
+            return session.get(Solicitud.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
+            return null;
         }
-        return solicitud;
     }
 
     // Método para actualizar una solicitud
