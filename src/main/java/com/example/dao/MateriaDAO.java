@@ -17,14 +17,17 @@ public class MateriaDAO {
     public MateriaDAO() {
         this.factory = HibernateUtil.getSessionFactory();
     }
+    private void crearTransaccion(Session session){
+        session = factory.openSession();
+        session.beginTransaction();
+    }
 
     // Método para obtener todas las materias
     public List<Materia> getAllMaterias(){
 
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
+            crearTransaccion(session);
             // Retornar directamente el resultado de la consulta
             List<Materia> result = consultarMaterias(session);
             session.getTransaction().commit();
@@ -51,8 +54,7 @@ public class MateriaDAO {
     public Materia findById(int id) {
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
+            crearTransaccion(session);
             Materia materia = session.get(Materia.class, id);
 
             // Forzar la inicialización de la colección de tutores
@@ -79,8 +81,7 @@ public class MateriaDAO {
     public List<Materia> getMateriasByTutorId(int tutorId) {
         Session session = null;
         try {
-            session = factory.openSession();
-            session.beginTransaction();
+            crearTransaccion(session);
             // Consulta para obtener las materias impartidas por el tutor
             List<Materia> materias = session.createQuery("SELECT m FROM Materia m JOIN m.tutores t WHERE t.id = :tutorId", Materia.class)
                     .setParameter("tutorId", tutorId)
@@ -99,8 +100,4 @@ public class MateriaDAO {
         }
         return null;
     }
-
-
-
-
 }
