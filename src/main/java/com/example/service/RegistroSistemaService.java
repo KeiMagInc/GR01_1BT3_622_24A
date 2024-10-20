@@ -12,46 +12,38 @@ import com.example.model.Tutor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReguistroSistemaService {
+public class RegistroSistemaService {
     private AlumnoDAO alumnoDAO = new AlumnoDAO();
     private TutorDAO tutorDAO = new TutorDAO();
     private AdministratorDAO administradorDAO = new AdministratorDAO();
     private MateriaDAO materiaDAO = new MateriaDAO();
 
-    public ReguistroSistemaService() {
+    public RegistroSistemaService() {
 
     }
 
-    public void reguistrarUsuario(String nombre, String apellido, String correo, String rolId, String[] materiasSeleccionadas){
-
+    public void registrarUsuario(String nombre, String apellido, String correo, String rolId, String[] materiasSeleccionadas){
         // Validar si el correo ya existe
         boolean correoExistente = false;
-
         switch (rolId){
             case "1": // Alumno
                 if (alumnoDAO.findByEmail(correo) != null) {
-                    correoExistente = true;
-                }
+                    correoExistente = true;                }
                 break;
             case "2": // Tutor
                 if (tutorDAO.findByEmail(correo) != null) {
-                    correoExistente = true;
-                }
+                    correoExistente = true;                }
                 break;
             case "3": // Administrador
                 if (administradorDAO.findByEmail(correo) != null) {
-                    correoExistente = true;
-                }
+                    correoExistente = true;                }
                 break;
             default:
                 throw new IllegalArgumentException("Rol no válido");
         }
-
         // Si el correo ya existe, lanzar una excepción o manejar el error
         if (correoExistente) {
-            throw new RuntimeException("El correo ya está registrado: " + correo);
-        }
-
+            throw new RuntimeException("El correo ya está registrado: " + correo);        }
         // Continuar con el registro si el correo no existe
         switch (rolId){
             case "1": // Registrar Alumno
@@ -69,7 +61,6 @@ public class ReguistroSistemaService {
                 tutor.setEmail(correo);
                 tutor.setRolID(rolId);
                 List<Materia> materias = new ArrayList<>(); // Lista de materias a las que se va a asociar el tutor
-
                 for (String materiaId : materiasSeleccionadas) {
                     // Recuperar la materia de la base de datos
                     Materia materia = materiaDAO.findById(Integer.parseInt(materiaId));
@@ -82,7 +73,6 @@ public class ReguistroSistemaService {
                         throw new RuntimeException("Materia no encontrada con ID: " + materiaId);
                     }
                 }
-
                 // Asignar las materias al tutor
                 tutor.setMaterias(materias);
                 tutorDAO.registrarTutor(tutor);
@@ -100,3 +90,13 @@ public class ReguistroSistemaService {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+

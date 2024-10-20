@@ -55,7 +55,6 @@ public class CambiarEstadoCuentaServiceTest {
         // Llamar al método (no se espera que devuelva nada)
         cambiarEstadoCuentaService.cambiarEstadoCuenta(userId, accion, typeUser);
 
-
         Alumno alumno = alumnoDAO.obtenerAlumnoPorId(userId);
         assertNull(alumno);
     }

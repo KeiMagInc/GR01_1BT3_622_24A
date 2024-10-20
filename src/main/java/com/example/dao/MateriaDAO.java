@@ -17,10 +17,6 @@ public class MateriaDAO {
     public MateriaDAO() {
         this.factory = HibernateUtil.getSessionFactory();
     }
-    private void crearTransaccion(Session session){
-        session = factory.openSession();
-        session.beginTransaction();
-    }
 
     private void crearTransaccion(Session session){
         session = factory.openSession();
