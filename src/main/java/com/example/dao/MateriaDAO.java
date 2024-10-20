@@ -22,12 +22,18 @@ public class MateriaDAO {
         session.beginTransaction();
     }
 
+    private void crearTransaccion(Session session){
+        session = factory.openSession();
+        session.beginTransaction();
+    }
+
     // Método para obtener todas las materias
     public List<Materia> getAllMaterias(){
 
         Session session = null;
         try {
             crearTransaccion(session);
+
             // Retornar directamente el resultado de la consulta
             List<Materia> result = consultarMaterias(session);
             session.getTransaction().commit();
@@ -82,10 +88,12 @@ public class MateriaDAO {
         Session session = null;
         try {
             crearTransaccion(session);
+
             // Consulta para obtener las materias impartidas por el tutor
             List<Materia> materias = session.createQuery("SELECT m FROM Materia m JOIN m.tutores t WHERE t.id = :tutorId", Materia.class)
                     .setParameter("tutorId", tutorId)
                     .getResultList();
+
             session.getTransaction().commit();
             return materias;
         } catch (Exception e) {
@@ -100,4 +108,49 @@ public class MateriaDAO {
         }
         return null;
     }
+
+
+    // Método para eliminar una materia por su código
+    public void deleteMateria(int codigomateria) {
+        Session session = null;
+        try {
+            crearTransaccion(session);
+            Materia materia = session.get(Materia.class, codigomateria);
+            if (materia != null) {
+                session.delete(materia);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    // Método para obtener una materia por su código
+    public Materia getMateria(int codigomateria) {
+        Session session = null;
+        Materia materia = null;
+        try {
+            crearTransaccion(session);
+            materia = session.get(Materia.class, codigomateria);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return materia;
+    }
+
 }
