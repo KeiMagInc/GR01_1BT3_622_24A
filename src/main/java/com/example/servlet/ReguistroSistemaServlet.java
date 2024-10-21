@@ -3,7 +3,7 @@ import com.example.dao.MateriaDAO;
 import com.example.model.Materia;
 import com.example.dao.RolDAO;
 import com.example.model.Rol;
-import com.example.service.ReguistroSistemaService;
+import com.example.service.RegistroSistemaService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ public class ReguistroSistemaServlet extends HttpServlet {
     //inializar las variables
     private MateriaDAO materiaDAO = new MateriaDAO();
     private RolDAO rolDAO = new RolDAO();
-    private ReguistroSistemaService reguistroSistemaService = new ReguistroSistemaService();
+    private RegistroSistemaService reguistroSistemaService = new RegistroSistemaService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class ReguistroSistemaServlet extends HttpServlet {
 
         try {
 
-            reguistroSistemaService.reguistrarUsuario(nombre, apellido, correo, rolId, materiasSeleccionadas);
+            reguistroSistemaService.registrarUsuario(nombre, apellido, correo, rolId, materiasSeleccionadas);
         } catch (Exception e) {
 
             request.setAttribute("errorMessage", e.getMessage());
