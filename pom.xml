@@ -22,7 +22,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -31,6 +31,28 @@
       <version>4.0.1</version> <!-- Puedes ajustar la versión si es necesario -->
       <scope>provided</scope>
     </dependency>
+
+    <!-- Mockito -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.14.0</version> <!-- Última versión de Mockito -->
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Byte Buddy -->
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.15.5</version> <!-- Última versión de Byte Buddy -->
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>1.15.5</version> <!-- Agente Byte Buddy para instrumentación -->
+    </dependency>
+
+
 
 
     <!-- Jakarta Servlet API (compatible con Tomcat 10.x) -->
@@ -74,6 +96,14 @@
       <version>5.4.30.Final</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.200</version>
+      <scope>test</scope>
+    </dependency>
+
+
     <!-- MySQL driver -->
     <dependency>
       <groupId>mysql</groupId>
@@ -83,6 +113,12 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <version>RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
       <version>RELEASE</version>
       <scope>test</scope>
     </dependency>

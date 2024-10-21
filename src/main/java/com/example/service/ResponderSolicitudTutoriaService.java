@@ -7,22 +7,31 @@ public class ResponderSolicitudTutoriaService {
 
     private SolicitudTutoriaDAO solicitudTutoriaDAO;
 
+    // Constructor para inyectar el DAO
+    public ResponderSolicitudTutoriaService(SolicitudTutoriaDAO solicitudTutoriaDAO) {
+        this.solicitudTutoriaDAO = solicitudTutoriaDAO;
+    }
+
+    // Constructor por defecto
     public ResponderSolicitudTutoriaService() {
         this.solicitudTutoriaDAO = new SolicitudTutoriaDAO();
     }
 
-    // Método para responder a una solicitud (aceptar o rechazar)
     public void responderSolicitud(int solicitudId, String accion) {
         SolicitudTutoria solicitud = solicitudTutoriaDAO.getById(solicitudId);
 
-        // Actualizar el estado según la acción
+        if (solicitud == null) {
+            throw new IllegalArgumentException("La solicitud con el ID " + solicitudId + " no existe.");
+        }
+        if ("aceptada".equals(solicitud.getEstado()) || "rechazada".equals(solicitud.getEstado())) {
+            return;
+        }
         if ("aceptar".equals(accion)) {
             solicitud.setEstado("aceptada");
         } else if ("rechazar".equals(accion)) {
             solicitud.setEstado("rechazada");
         }
-
-        // Guardar la actualización
         solicitudTutoriaDAO.update(solicitud);
     }
 }
+
