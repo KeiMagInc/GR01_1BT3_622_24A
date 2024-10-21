@@ -10,7 +10,7 @@ public class AceptarTutoriaService {
 
     private SolicitudDAO solicitudDAO; // Inyectar o inicializar el DAO
 
-    public AceptarTutoriaService() {
+    public AceptarTutoriaService(SolicitudDAO solicitudDAO) {
         this.solicitudDAO = new SolicitudDAO(); // Inicializar el DAO
     }
 

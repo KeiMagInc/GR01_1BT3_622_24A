@@ -19,7 +19,7 @@ public class AceptarTutoriaServlet extends HttpServlet {
     @Override
     public void init() {
         solicitudDAO = new SolicitudDAO();
-        this.aceptarTutoriaService = new AceptarTutoriaService();
+        this.aceptarTutoriaService = new AceptarTutoriaService(solicitudDAO);
     }
 
     @Override
