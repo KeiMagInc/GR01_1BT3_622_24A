@@ -71,4 +71,19 @@ public class CambiarEstadoCuentaServiceTest {
 
         assertEquals("Acción no válida: invalid", exception.getMessage());
     }
+
+    @Test
+    public void testBanearAdministrador() {
+        String userId = "789";
+        String accion = "invalid";
+        String typeUser = "admin";
+
+        // Verificar que se lanza la excepción correcta
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            cambiarEstadoCuentaService.cambiarEstadoCuenta(userId, accion, typeUser);
+        });
+
+        assertEquals("Acción no válida: invalid", exception.getMessage());
+    }
+
 }
