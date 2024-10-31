@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>5.14.0</version> <!-- Última versión de Mockito -->
+      <version>3.12.4</version> <!-- Example version compatible with Java 8 -->
       <scope>test</scope>
     </dependency>
 
